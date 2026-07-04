@@ -66,7 +66,7 @@ const taskGrid: Record<TaskKey, string> = {
 }
 
 // Shared premium surface: hairline border, soft radius, smooth lift on hover.
-const cardBase = 'group block rounded-[var(--tk-radius)] border border-[var(--tk-line)] bg-[var(--tk-surface)] transition duration-500 hover:-translate-y-1.5 hover:shadow-[0_32px_72px_rgba(15,23,42,0.14)]'
+const cardBase = 'group block rounded-[var(--tk-radius)] border border-[var(--tk-line)] bg-[var(--tk-surface)] transition duration-500 hover:-translate-y-1.5 hover:shadow-[0_26px_55px_rgba(136,98,90,0.14)]'
 
 export async function EditableTaskArchiveRoute({
   task,
@@ -96,27 +96,26 @@ export function TaskArchiveView({ task, posts, pagination, category, basePath }:
   return (
     <EditableSiteShell>
       <main style={taskThemeStyle(task)} className="min-h-screen bg-[var(--tk-bg)] text-[var(--tk-text)]">
-        <header className="relative overflow-hidden border-b border-[var(--tk-line)]">
-          <div className="pointer-events-none absolute inset-x-0 -top-40 h-96 bg-[radial-gradient(60%_60%_at_50%_0%,var(--tk-glow),transparent_70%)]" />
-          <div className="relative mx-auto max-w-[var(--editable-container)] px-6 py-20 sm:py-28 lg:px-8">
-            <div className="flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.34em] text-[var(--tk-accent)]">
+        <header className="relative overflow-hidden border-b border-[var(--tk-line)] bg-[linear-gradient(180deg,#d5e9f7_0%,#edf6fd_58%,#fffaf7_100%)]">
+          <div className="relative mx-auto max-w-[var(--editable-container)] px-6 py-16 sm:py-20 lg:px-8">
+            <div className="flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.34em] text-[var(--tk-accent)]">
               <span>{theme.kicker}</span>
               <span className="h-1 w-1 rounded-full bg-[var(--tk-accent)] opacity-50" />
               <span className="text-[var(--tk-muted)]">{label}</span>
             </div>
-            <h1 className="editable-display mt-6 max-w-3xl text-balance text-[2.5rem] font-semibold leading-[1.06] tracking-[-0.03em] sm:text-5xl lg:text-6xl">
+            <h1 className="editable-display mt-6 max-w-4xl text-balance text-[2.9rem] font-semibold leading-[0.98] tracking-[-0.05em] sm:text-5xl lg:text-[4.2rem]">
               {voice?.headline || `Browse ${label}`}
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--tk-muted)]">{voice?.description || theme.note}</p>
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-[var(--tk-text)]">{voice?.description || theme.note}</p>
             {voice?.chips?.length ? (
               <div className="mt-8 flex flex-wrap gap-2.5">
                 {voice.chips.map((chip) => (
-                  <span key={chip} className="rounded-full border border-[var(--tk-line)] bg-[var(--tk-surface)] px-3.5 py-1.5 text-xs font-medium text-[var(--tk-muted)]">{chip}</span>
+                  <span key={chip} className="rounded-sm border border-[var(--tk-line)] bg-white px-4 py-2 text-sm font-semibold text-[var(--tk-text)]">{chip}</span>
                 ))}
               </div>
             ) : null}
 
-            <div className="mt-12 flex flex-col gap-4 border-t border-[var(--tk-line)] pt-6 sm:flex-row sm:items-center sm:justify-between">
+            <div className="mt-10 flex flex-col gap-4 rounded-[1.5rem] border border-white/70 bg-white/80 p-5 shadow-[0_14px_40px_rgba(30,120,186,0.08)] backdrop-blur sm:flex-row sm:items-center sm:justify-between">
               <p className="text-sm text-[var(--tk-muted)]">
                 <span className="font-semibold text-[var(--tk-text)]">{posts.length}</span> {posts.length === 1 ? 'post' : 'posts'} · {categoryLabel}
               </p>
@@ -125,7 +124,7 @@ export function TaskArchiveView({ task, posts, pagination, category, basePath }:
                   <select
                     name="category"
                     defaultValue={category}
-                    className="h-11 appearance-none rounded-full border border-[var(--tk-line)] bg-[var(--tk-surface)] pl-4 pr-10 text-sm font-medium text-[var(--tk-text)] outline-none transition focus:border-[var(--tk-accent)]"
+                    className="h-11 appearance-none rounded-md border border-[var(--tk-line)] bg-white pl-4 pr-10 text-sm font-medium text-[var(--tk-text)] outline-none transition focus:border-[var(--tk-accent)]"
                     aria-label={voice?.filterLabel || 'Filter category'}
                   >
                     <option value="all">All categories</option>
@@ -133,7 +132,7 @@ export function TaskArchiveView({ task, posts, pagination, category, basePath }:
                   </select>
                   <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--tk-muted)]" />
                 </div>
-                <button className="inline-flex h-11 items-center rounded-full bg-[var(--tk-accent)] px-5 text-sm font-semibold text-[var(--tk-on-accent)] transition hover:opacity-90">Apply</button>
+                <button className="inline-flex h-11 items-center rounded-md bg-[var(--tk-accent)] px-5 text-sm font-semibold text-white transition hover:opacity-90">Apply</button>
               </form>
             </div>
           </div>
@@ -154,9 +153,9 @@ export function TaskArchiveView({ task, posts, pagination, category, basePath }:
 
           {posts.length ? (
             <nav className="mt-16 flex items-center justify-center gap-3 text-sm">
-              {pagination.hasPrevPage ? <Link href={pageHref(basePath, category, page - 1)} className="rounded-full border border-[var(--tk-line)] px-5 py-2.5 font-medium transition hover:border-[var(--tk-accent)]">Previous</Link> : null}
-              <span className="rounded-full border border-[var(--tk-line)] bg-[var(--tk-surface)] px-5 py-2.5 font-medium text-[var(--tk-muted)]">Page {page} of {pagination.totalPages || 1}</span>
-              {pagination.hasNextPage ? <Link href={pageHref(basePath, category, page + 1)} className="rounded-full border border-[var(--tk-line)] px-5 py-2.5 font-medium transition hover:border-[var(--tk-accent)]">Next</Link> : null}
+              {pagination.hasPrevPage ? <Link href={pageHref(basePath, category, page - 1)} className="rounded-md border border-[var(--tk-line)] bg-white px-5 py-3 font-semibold transition hover:border-[var(--tk-accent)] hover:text-[var(--tk-accent)]">Previous</Link> : null}
+              <span className="rounded-md border border-[var(--tk-line)] bg-white px-5 py-3 font-semibold text-[var(--tk-muted)]">Page {page} of {pagination.totalPages || 1}</span>
+              {pagination.hasNextPage ? <Link href={pageHref(basePath, category, page + 1)} className="rounded-md bg-[var(--tk-accent)] px-5 py-3 font-semibold text-white transition hover:opacity-90">Next</Link> : null}
             </nav>
           ) : null}
         </section>
@@ -228,14 +227,14 @@ function ArticleArchiveCard({ post, href, index }: { post: SitePost; href: strin
         <img src={image} alt="" className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]" />
       </div>
       <div className="p-6 sm:p-7">
-        <div className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.22em] text-[var(--tk-accent)]">
+        <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--tk-accent)]">
           <span>{category}</span>
           <span className="text-[var(--tk-muted)]">· No. {String(index + 1).padStart(2, '0')}</span>
         </div>
-        <h2 className="editable-display mt-3 text-2xl font-semibold leading-snug tracking-[-0.02em]">{post.title}</h2>
+        <h2 className="editable-display mt-3 text-[2rem] font-semibold leading-[1.02] tracking-[-0.04em]">{post.title}</h2>
         <RatingLine post={post} />
-        <p className="mt-3 line-clamp-2 text-[15px] leading-7 text-[var(--tk-muted)]">{getSummary(post)}</p>
-        <CardArrow label="Read article" />
+        <p className="mt-3 line-clamp-2 text-[16px] leading-8 text-[var(--tk-text)]">{getSummary(post)}</p>
+        <CardArrow label="View more" />
       </div>
     </Link>
   )
