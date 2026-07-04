@@ -183,7 +183,7 @@ function Kicker({ task, children }: { task: TaskKey; children: React.ReactNode }
 function BackLink({ task }: { task: TaskKey }) {
   const taskConfig = getTaskConfig(task)
   return (
-    <Link href={taskConfig?.route || '/'} className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--tk-muted)] transition hover:text-[var(--tk-text)]">
+    <Link href={taskConfig?.route || '/'} className="inline-flex items-center gap-1.5 rounded-full border border-[var(--tk-line)] bg-white px-4 py-2 text-sm font-semibold text-[var(--tk-muted)] transition hover:border-[var(--tk-accent)] hover:text-[var(--tk-accent)]">
       <ArrowLeft className="h-4 w-4" /> Back to {taskConfig?.label || 'posts'}
     </Link>
   )
@@ -196,10 +196,12 @@ function ArticleDetail({ post, related, comments }: { post: SitePost; related: S
     <>
       <article className="mx-auto max-w-4xl px-6 py-14 sm:py-20">
         <BackLink task="article" />
-        <p className="mt-10 text-xs font-medium uppercase tracking-[0.28em] text-[var(--tk-accent)]">{categoryOf(post, 'Article')}</p>
-        <h1 className="editable-display mt-5 text-balance text-4xl font-semibold leading-[1.06] tracking-[-0.03em] sm:text-5xl lg:text-[3.4rem]">{post.title}</h1>
-        <div className="mt-6 text-sm text-[var(--tk-muted)]">
-          <span>{SITE_CONFIG.name}</span>
+        <div className="mt-10 rounded-[2rem] bg-[linear-gradient(180deg,#d5e9f7_0%,#edf6fd_58%,#fffaf7_100%)] px-6 py-10 sm:px-10">
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[var(--tk-accent)]">{categoryOf(post, 'Article')}</p>
+          <h1 className="editable-display mt-5 text-balance text-4xl font-semibold leading-[0.98] tracking-[-0.05em] sm:text-5xl lg:text-[3.8rem]">{post.title}</h1>
+          <div className="mt-6 text-sm font-semibold text-[var(--tk-muted)]">
+            <span>{SITE_CONFIG.name}</span>
+          </div>
         </div>
         {images[0] ? <img src={images[0]} alt="" className="mt-10 aspect-[16/9] w-full rounded-[var(--tk-radius)] border border-[var(--tk-line)] object-cover" /> : null}
         <BodyContent post={post} />
@@ -424,10 +426,12 @@ function Divider() {
 
 function BodyContent({ post, compact = false }: { post: SitePost; compact?: boolean }) {
   return (
-    <div
-      className={`article-content mt-8 max-w-none text-[var(--tk-text)] ${compact ? 'text-[15px] leading-7' : 'text-[1.0625rem] leading-8'}`}
-      dangerouslySetInnerHTML={{ __html: formatPlainText(getBody(post)) }}
-    />
+    <div className="mt-8 rounded-[1.8rem] border border-[var(--tk-line)] bg-white p-6 shadow-[0_14px_40px_rgba(136,98,90,0.08)] sm:p-8">
+      <div
+        className={`article-content max-w-none text-[var(--tk-text)] ${compact ? 'text-[15px] leading-7' : 'text-[1.0625rem] leading-8'}`}
+        dangerouslySetInnerHTML={{ __html: formatPlainText(getBody(post)) }}
+      />
+    </div>
   )
 }
 
@@ -471,14 +475,14 @@ function ContactAction({ website, phone, email, bare = false }: { website?: stri
   if (!website && !phone && !email) return null
   const buttons = (
     <div className={`flex flex-wrap gap-2.5 ${bare ? 'justify-center' : ''}`}>
-      {website ? <Link href={website} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[var(--tk-accent)] px-4 py-2.5 text-sm font-semibold text-[var(--tk-on-accent)] transition hover:opacity-90">Website <ExternalLink className="h-4 w-4" /></Link> : null}
-      {phone ? <a href={`tel:${phone}`} className="inline-flex items-center gap-2 rounded-full border border-[var(--tk-line)] px-4 py-2.5 text-sm font-semibold transition hover:border-[var(--tk-accent)]"><Phone className="h-4 w-4" /> Call</a> : null}
-      {email ? <a href={`mailto:${email}`} className="inline-flex items-center gap-2 rounded-full border border-[var(--tk-line)] px-4 py-2.5 text-sm font-semibold transition hover:border-[var(--tk-accent)]"><Mail className="h-4 w-4" /> Email</a> : null}
+      {website ? <Link href={website} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-md bg-[var(--tk-accent)] px-4 py-2.5 text-sm font-semibold text-white transition hover:opacity-90">Website <ExternalLink className="h-4 w-4" /></Link> : null}
+      {phone ? <a href={`tel:${phone}`} className="inline-flex items-center gap-2 rounded-md border border-[var(--tk-line)] bg-[var(--tk-surface)] px-4 py-2.5 text-sm font-semibold transition hover:border-[var(--tk-accent)]"><Phone className="h-4 w-4" /> Call</a> : null}
+      {email ? <a href={`mailto:${email}`} className="inline-flex items-center gap-2 rounded-md border border-[var(--tk-line)] bg-[var(--tk-surface)] px-4 py-2.5 text-sm font-semibold transition hover:border-[var(--tk-accent)]"><Mail className="h-4 w-4" /> Email</a> : null}
     </div>
   )
   if (bare) return <div className="mt-6">{buttons}</div>
   return (
-    <div className="rounded-[var(--tk-radius)] border border-[var(--tk-line)] bg-[var(--tk-surface)] p-6">
+    <div className="rounded-[var(--tk-radius)] border border-[var(--tk-line)] bg-white p-6 shadow-[0_14px_40px_rgba(136,98,90,0.08)]">
       <p className="text-xs font-medium uppercase tracking-[0.2em] text-[var(--tk-muted)]">Quick actions</p>
       <div className="mt-4">{buttons}</div>
     </div>
@@ -498,7 +502,7 @@ function RelatedPanel({ task, post, related }: { task: TaskKey; post: SitePost; 
   const taskConfig = getTaskConfig(task)
   return (
     <div className="space-y-6">
-      <div className="rounded-[var(--tk-radius)] border border-[var(--tk-line)] bg-[var(--tk-surface)] p-6">
+      <div className="rounded-[var(--tk-radius)] border border-[var(--tk-line)] bg-white p-6 shadow-[0_14px_40px_rgba(136,98,90,0.08)]">
         <p className="text-xs font-medium uppercase tracking-[0.2em] text-[var(--tk-muted)]">About this post</p>
         <div className="mt-4 grid gap-2.5 text-sm text-[var(--tk-muted)]">
           <p className="inline-flex items-center gap-2"><Tag className="h-4 w-4 text-[var(--tk-accent)]" /> {taskConfig?.label || task}</p>
@@ -506,7 +510,7 @@ function RelatedPanel({ task, post, related }: { task: TaskKey; post: SitePost; 
         </div>
       </div>
       {related.length ? (
-        <div className="rounded-[var(--tk-radius)] border border-[var(--tk-line)] bg-[var(--tk-surface)] p-6">
+        <div className="rounded-[var(--tk-radius)] border border-[var(--tk-line)] bg-white p-6 shadow-[0_14px_40px_rgba(136,98,90,0.08)]">
           <div className="flex items-center justify-between gap-3">
             <h2 className="editable-display text-lg font-semibold tracking-[-0.02em]">More like this</h2>
             <Link href={taskConfig?.route || '/'} className="text-xs font-medium uppercase tracking-[0.14em] text-[var(--tk-accent)]">View all</Link>
